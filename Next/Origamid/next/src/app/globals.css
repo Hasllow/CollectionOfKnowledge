@@ -31,3 +31,15 @@ body {
     text-wrap: balance;
   }
 }
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.menu {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
