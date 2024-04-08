@@ -23,14 +23,12 @@ interface CourseDetail extends Course {
 
 export const getAllCourses = async (): Promise<Course[]> => {
   const res = await fetch("https://api.origamid.online/cursos");
-  const data = await res.json();
-  return data;
+  return await res.json();
 };
 
 export const getCourse = async (courseName: string): Promise<CourseDetail> => {
   const res = await fetch(`https://api.origamid.online/cursos/${courseName}`);
-  const data = await res.json();
-  return data;
+  return await res.json();
 };
 
 export const getClassDetail = async (
@@ -40,6 +38,5 @@ export const getClassDetail = async (
   const res = await fetch(
     `https://api.origamid.online/cursos/${courseName}/${className}`
   );
-  const data = await res.json();
-  return data;
+  return await res.json();
 };

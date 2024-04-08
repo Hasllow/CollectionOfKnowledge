@@ -5,7 +5,7 @@ export default async function CursosPage() {
   const data = await getAllCourses();
 
   return (
-    <main>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <ul>
         {data.map((course) => (
           <li key={course.id}>
