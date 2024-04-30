@@ -1,5 +1,6 @@
 "use client";
 
+import Atualizar from "@/components/Atualizar";
 import { useEffect, useState } from "react";
 
 interface Acao {
@@ -20,6 +21,7 @@ export default function AcoesPage() {
   return (
     <main>
       <h1>Ações</h1>
+      <Atualizar />
       <h1>{data.simbolo}</h1>
       <h1>{data.atualizada}</h1>
     </main>
