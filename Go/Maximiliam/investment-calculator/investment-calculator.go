@@ -5,26 +5,33 @@ import (
 	"math"
 )
 
+const inflationRate = 2.5
+
 func main() {
-	const inflationRate = 2.5
 	var investmentAmount, years, expectedReturnRate float64
 
-	fmt.Print("Investment Amount: ")
-	fmt.Scan(&investmentAmount)
+	investmentAmount = getUserInput("Investment Amount: ")
+	years = getUserInput("Years Amount: ")
+	expectedReturnRate = getUserInput("Expected Return Rate Amount: ")
 
-	fmt.Print("Years Amount: ")
-	fmt.Scan(&years)
-
-	fmt.Print("Expected Return Rate Amount: ")
-	fmt.Scan(&expectedReturnRate)
-
-	futureValue := investmentAmount * math.Pow(1+expectedReturnRate/100, years)
-	futureRealValue := futureValue / math.Pow(1+inflationRate/100, years)
-
-	fmt.Printf("The future value of the investment is: %.2f\n", futureValue)
+	futureValue, futureRealValue := calculateFutureValues(investmentAmount, years, expectedReturnRate)
 
 	formattedFV := fmt.Sprintf("Future Value: %.1f\n", futureValue)
 	formattedRFV := fmt.Sprintf("Future Real Value: %.1f\n", futureRealValue)
-
 	fmt.Print(formattedFV, formattedRFV)
+}
+
+func calculateFutureValues(investmentAmount, years, expectedReturnRate float64) (fv float64, rfv float64) {
+	fv = investmentAmount * math.Pow(1+expectedReturnRate/100, years)
+	rfv = fv / math.Pow(1+inflationRate/100, years)
+
+	return fv, rfv
+}
+
+func getUserInput(message string) float64 {
+	var value float64
+	fmt.Print(message)
+	fmt.Scan(&value)
+
+	return value
 }
