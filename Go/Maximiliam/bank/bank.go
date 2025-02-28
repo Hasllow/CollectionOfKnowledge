@@ -1,9 +1,37 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"os"
+)
+
+const accountBalanceFile = "balance.txt"
+
+func writeBalanceToFile(balance float64) {
+	balanceText := fmt.Sprint(balance)
+	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
+	// os.WriteFile("balance.txt", fmt.Appendf(nil, "%f", balance), 0644)
+}
+
+func getBalanceFromFile() (float64, error) {
+	balanceText, err := os.ReadFile(accountBalanceFile)
+	if err != nil {
+		fmt.Println("Error reading balance file: ", err)
+		return 0.0, errors.New("error reading balance file")
+	}
+
+	var balance float64
+	fmt.Sscanf(string(balanceText), "%f", &balance)
+	return balance, nil
+}
 
 func main() {
-	accountBalance := 1000.0
+	accountBalance, err := getBalanceFromFile()
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
 	var choice int
 
 	fmt.Println("Welcome to Go Bank!")
@@ -18,23 +46,22 @@ func main() {
 		fmt.Print("Enter your choice: ")
 		fmt.Scanln(&choice)
 
-		fmt.Println("Your choice is: ", choice)
-
 		switch choice {
 		case 1:
 			fmt.Println("Your account balance is: ", accountBalance)
 		case 2:
 			var depositAmount float64
 
+			fmt.Print("Your deposit: ")
+			fmt.Scanln(&depositAmount)
+
 			if depositAmount < 0 {
 				fmt.Println("Invalid deposit amount!")
 				continue
 			}
 
-			fmt.Print("Your deposit: ")
-			fmt.Scanln(&depositAmount)
-
 			accountBalance += depositAmount
+			writeBalanceToFile(accountBalance)
 			fmt.Println("Your account balance is:", accountBalance)
 		case 3:
 			var withdrawAmount float64
@@ -53,6 +80,7 @@ func main() {
 			}
 
 			accountBalance -= withdrawAmount
+			writeBalanceToFile(accountBalance)
 			fmt.Println("Your account balance is: ", accountBalance)
 		default:
 			fmt.Println("Thank you for using Go Bank!")
