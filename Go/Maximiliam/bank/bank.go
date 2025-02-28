@@ -4,45 +4,59 @@ import "fmt"
 
 func main() {
 	accountBalance := 1000.0
+	var choice int
 
 	fmt.Println("Welcome to Go Bank!")
-	fmt.Println("What do you want to do?")
-	fmt.Println("1. Check Balance")
-	fmt.Println("2. Deposit Money")
-	fmt.Println("3. Withdraw Money")
-	fmt.Println("4. Exit")
 
-	var choice int
-	fmt.Print("Enter your choice: ")
-	fmt.Scanln(&choice)
+	for {
+		fmt.Println("What do you want to do?")
+		fmt.Println("1. Check Balance")
+		fmt.Println("2. Deposit Money")
+		fmt.Println("3. Withdraw Money")
+		fmt.Println("4. Exit")
 
-	fmt.Println("Your choice is: ", choice)
+		fmt.Print("Enter your choice: ")
+		fmt.Scanln(&choice)
 
-	if choice == 1 {
-		fmt.Println("Your account balance is: ", accountBalance)
-	} else if choice == 2 {
-		var depositAmount float64
+		fmt.Println("Your choice is: ", choice)
 
-		fmt.Print("Your deposit: ")
-		fmt.Scanln(&depositAmount)
+		switch choice {
+		case 1:
+			fmt.Println("Your account balance is: ", accountBalance)
+		case 2:
+			var depositAmount float64
 
-		accountBalance += depositAmount
-		fmt.Println("Your account balance is:", accountBalance)
-	} else if choice == 3 {
-		var withdrawAmount float64
+			if depositAmount < 0 {
+				fmt.Println("Invalid deposit amount!")
+				continue
+			}
 
-		fmt.Print("Your withdraw: ")
-		fmt.Scanln(&withdrawAmount)
+			fmt.Print("Your deposit: ")
+			fmt.Scanln(&depositAmount)
 
-		if withdrawAmount > accountBalance {
-			fmt.Println("Insufficient balance!")
-		} else {
+			accountBalance += depositAmount
+			fmt.Println("Your account balance is:", accountBalance)
+		case 3:
+			var withdrawAmount float64
+
+			fmt.Print("Your withdraw: ")
+			fmt.Scanln(&withdrawAmount)
+
+			if withdrawAmount < 0 {
+				fmt.Println("Invalid withdraw amount!")
+				continue
+			}
+
+			if withdrawAmount > accountBalance {
+				fmt.Println("Insufficient balance!")
+				continue
+			}
+
 			accountBalance -= withdrawAmount
 			fmt.Println("Your account balance is: ", accountBalance)
+		default:
+			fmt.Println("Thank you for using Go Bank!")
+			return
 		}
-	} else if choice == 4 {
-		fmt.Println("Thank you for using Go Bank!")
-	} else {
-		fmt.Println("Invalid choice!")
 	}
 }
