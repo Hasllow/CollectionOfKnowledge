@@ -1,8 +1,10 @@
 import express from "express";
+import path from "path";
+
+import __dirname from "../util/path.js";
 
 export const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  console.log("Im in another middleware");
-  res.send("Hello World from express");
+  res.sendFile(path.join(__dirname, "../views/shop.html"));
 });
