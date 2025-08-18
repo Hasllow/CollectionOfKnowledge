@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 
+import notFoundController from "./controllers/404.js";
+
 import adminRoutes from "./routes/admin.js";
 import shopRoutes from "./routes/shop.js";
 
@@ -18,8 +20,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found" });
-});
+app.use(notFoundController.getNotFound);
 
 app.listen("3000");
